@@ -1,6 +1,9 @@
-import java.io.*;
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+
 /*
 Ryan Harding, CEN-3024C-14320, 09/08/2024
 Software Development 1
@@ -8,10 +11,10 @@ Function: The Library Class handles the arraylist of the program,
 loads books into the list, removes them via id#, and prints out
 the list in the console.
  */
-public class Library {
+public class LibraryTxt {
     private ArrayList<Book> books;
 
-    public Library() {
+    public LibraryTxt() {
         books = new ArrayList<>();
     }
 

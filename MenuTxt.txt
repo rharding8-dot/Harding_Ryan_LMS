@@ -1,15 +1,16 @@
 import java.util.Scanner;
+
 /*
 Ryan Harding, CEN-3024C-14320, 09/08/2024
 Software Development 1
 Function: The Menu Class handles the structure of the menu system
 in the console, including prompting the user of the choices.
  */
-public class Menu {
+public class MenuTxt {
     private Library library;
     private Scanner scanner;
 
-    public Menu(Library library) {
+    public MenuTxt(Library library) {
         this.library = library;
         this.scanner = new Scanner(System.in);
     }

@@ -3,14 +3,14 @@ Ryan Harding, CEN-3024C-14320, 09/08/2024
 Software Development 1
 Function: Creates a Book object with three required parts: id, title, and author
  */
-public class Book {
+public class BookTxt {
     private int id;
     private String title;
     private String author;
     private boolean isCheckedOut;
 
     //constructor
-    public Book(int id, String title, String author) {
+    public BookTxt(int id, String title, String author) {
         this.id = id;
         this.title = title;
         this.author = author;
