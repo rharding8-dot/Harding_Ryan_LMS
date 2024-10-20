@@ -116,4 +116,11 @@ public class Library {
         }
     }//end listBooks method
 
+
+    // Getter method for the books
+    public ArrayList<Book> getBooks() {
+        return books;
+    }
+
+
 }//end Library Class
