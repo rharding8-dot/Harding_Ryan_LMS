@@ -1,6 +1,9 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 
 /*
 Ryan Harding, CEN-3024C-14320, 11/03/2024
@@ -19,6 +22,7 @@ public class MainFrame extends JFrame {
     private JButton exitButton;
     private JPanel mainPanel;
     private JButton uploadBooksButton;
+    private JTable table1;
 
     /*
     Method Name: MainFrame
@@ -29,10 +33,11 @@ public class MainFrame extends JFrame {
     public MainFrame(Library library) {
         this.library = library;
         setTitle("Library Management System");
-        setSize(400, 300);
+        setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(mainPanel);
         setLocationRelativeTo(null);
+        mainPanel.setBackground(Color.DARK_GRAY);
 
 
         /*
@@ -120,17 +125,42 @@ public class MainFrame extends JFrame {
 
     /*
     Method Name: listBooks
-    Explanation: This method displays books that are currently in the lms instance.
+    Explanation: This method displays books that are currently in the MySQL database.
     Arguments: none
-    Return Value: Displays information in a window
+    Return Value: Displays information in a GUI table
      */
     private void listBooks() {
-        StringBuilder bookList = new StringBuilder();
-        for (Book book : library.getBooks()) {
-            bookList.append(book.toString()).append("\n");
+        String query = "SELECT * FROM Books";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            //Convert ResultSet to TableModel - Still unsure what this means
+            DefaultTableModel tableModel = new DefaultTableModel();
+            ResultSetMetaData metaData = rs.getMetaData();
+
+            int columnCount = metaData.getColumnCount();
+            for (int i = 1; i <= columnCount; i++) {
+                tableModel.addColumn(metaData.getColumnName(i));
+            }
+
+            while (rs.next()) {
+                Object[] row = new Object[columnCount];
+                for (int i = 1; i <= columnCount; i++) {
+                    row[i - 1] = rs.getObject(i);
+                }
+                tableModel.addRow(row);
+            }
+
+            table1.setModel(tableModel); //Displays in JTable
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error loading books.");
         }
-        JOptionPane.showMessageDialog(this, bookList.toString(), "List of Books", JOptionPane.INFORMATION_MESSAGE);
-    }//end listBooks helper method
+
+    }//end listBooks method
+
 
     /*
     Method Name: removeBook
@@ -139,12 +169,29 @@ public class MainFrame extends JFrame {
     Return Value: Displays information in a window
      */
     private void removeBook() {
-        String idString = JOptionPane.showInputDialog(this, "Enter the ID of the book to remove:");
-        if (idString != null && !idString.isEmpty()) {
-            int id = Integer.parseInt(idString);
-            library.removeBook(id);
-            JOptionPane.showMessageDialog(this, "Book with ID " + id + " removed.");
+        String input = JOptionPane.showInputDialog(this, "Enter the Title or Barcode of the book to remove:");
+        if (input != null && !input.isEmpty()) {
+            String query = "DELETE FROM Books WHERE Title = ? OR Barcode = ?";
+            try (Connection conn = DatabaseConnection.getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(query)) {
+
+                stmt.setString(1, input);
+                stmt.setString(2, input);
+                int rows = stmt.executeUpdate();
+
+                if (rows > 0) {
+                    JOptionPane.showMessageDialog(this, "Book removed successfully.");
+                    listBooks(); //Refresh the table
+                } else {
+                    JOptionPane.showMessageDialog(this, "No matching book found.");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error removing book.");
+            }
+
         }
+
     }//end removeBook helper method
 
     /*
@@ -155,10 +202,31 @@ public class MainFrame extends JFrame {
     Return Value: Displays information in a window
      */
     private void checkOutBook() {
-        String title = JOptionPane.showInputDialog(this, "Enter the title of the book to check out:");
-        if (title != null && !title.isEmpty()) {
-            library.checkOutBook(title);
+        String barcode = JOptionPane.showInputDialog(this, "Enter the Barcode of the book to check out:");
+        String dueDate = JOptionPane.showInputDialog(this, "Enter the Due Date (YYYY-MM-DD):");
+
+        if (barcode != null && !barcode.isEmpty() && dueDate != null && !dueDate.isEmpty()) {
+            String query = "UPDATE Books SET Status = 'checked out', DueDate = ? WHERE Barcode = ?";
+            try (Connection conn = DatabaseConnection.getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(query)) {
+
+                stmt.setString(1, dueDate);
+                stmt.setString(2, barcode);
+                int rows = stmt.executeUpdate();
+
+                if (rows > 0) {
+                    JOptionPane.showMessageDialog(this, "Book checked out successfully.");
+                    listBooks(); //Refresh the table
+                } else {
+                    JOptionPane.showMessageDialog(this, "No matching book found.");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error checking out book.");
+            }
+
         }
+
     }//end checkOutBook helper method
 
     /*
@@ -169,10 +237,28 @@ public class MainFrame extends JFrame {
     Return Value: Displays information in a window
      */
     private void checkInBook() {
-        String title = JOptionPane.showInputDialog(this, "Enter the title of the book to check in:");
-        if (title != null && !title.isEmpty()) {
-            library.checkInBook(title);
+        String barcode = JOptionPane.showInputDialog(this, "Enter the Barcode of the book to check in:");
+        if (barcode != null && !barcode.isEmpty()) {
+            String query = "UPDATE Books SET Status = 'checked in', DueDate = NULL WHERE Barcode = ?";
+            try (Connection conn = DatabaseConnection.getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(query)) {
+
+                stmt.setString(1, barcode);
+                int rows = stmt.executeUpdate();
+
+                if (rows > 0) {
+                    JOptionPane.showMessageDialog(this, "Book checked in successfully.");
+                    listBooks(); // Refresh the table
+                } else {
+                    JOptionPane.showMessageDialog(this, "No matching book found.");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error checking in book.");
+            }
+
         }
+
     }//end checkInBook
 
     /*
