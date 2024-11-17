@@ -1,2 +1,2 @@
 # Harding_Ryan_LMS
-This is a simple java library management system designed to be operated in a GUI.
+This is a MySQL Java library management system designed to be operated in a GUI.
