@@ -1,5 +1,5 @@
 import java.util.Scanner;
-/*
+/**
 Ryan Harding, CEN-3024C-14320, 09/08/2024
 Software Development 1
 Function: The Menu Class handles the structure of the menu system
@@ -14,7 +14,7 @@ public class Menu {
         this.scanner = new Scanner(System.in);
     }
 
-    /*
+    /**
     Method: displayMenu
     The purpose of this method is to display the menu system in the console
     and handle the users input.
@@ -64,7 +64,7 @@ public class Menu {
 
     }//end displayMenu method
 
-    /*
+    /**
     Method: loadBooks
     The purpose of this method is the scan the books from the given file path
     and loading them into the LMS

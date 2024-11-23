@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
-/*
+/**
 Ryan Harding, CEN-3024C-14320, 11/03/2024
 MainFrame.java
 Explanation: MainFrame.java takes care of the layout functions within MainFrame.form
@@ -24,7 +24,7 @@ public class MainFrame extends JFrame {
     private JButton uploadBooksButton;
     private JTable table1;
 
-    /*
+    /**
     Method Name: MainFrame
     Explanation: This constructor initializes the MainFrame GUI and its functions with the LMS
     Arguments: Instance of the library class
@@ -40,7 +40,7 @@ public class MainFrame extends JFrame {
         mainPanel.setBackground(Color.DARK_GRAY);
 
 
-        /*
+        /**
         Method Name: actionPerformed
         Explanation: Below are the following EVENT LISTENERS for each button in the GUI
         Argument: When button is clicked, a following helper method will enable
@@ -89,7 +89,7 @@ public class MainFrame extends JFrame {
         });
     }//end MainFrame method
 
-    /*
+    /**
     Method Name: uploadBooks
     Explanation: This method opens a file chooser dialog to allow the user to
     look for their .txt file to upload. It then calls the "loadBooksFromFile" method
@@ -123,7 +123,7 @@ public class MainFrame extends JFrame {
     }//end uploadBooks helper method
 
 
-    /*
+    /**
     Method Name: listBooks
     Explanation: This method displays books that are currently in the MySQL database.
     Arguments: none
@@ -162,7 +162,7 @@ public class MainFrame extends JFrame {
     }//end listBooks method
 
 
-    /*
+    /**
     Method Name: removeBook
     Explanation: This method prompts the user to enter the ID of the book to remove from the LMS
     Arguments: none
@@ -194,7 +194,7 @@ public class MainFrame extends JFrame {
 
     }//end removeBook helper method
 
-    /*
+    /**
     Method Name: checkOutBook
     Explanation: Allows user to check out a book in the lms which then changes the status of the book
     to unavailable. User must enter the title of the book.
@@ -229,7 +229,7 @@ public class MainFrame extends JFrame {
 
     }//end checkOutBook helper method
 
-    /*
+    /**
     Method Name: checkInBook
     Explanation: Allows user to check in a book in the lms which then changes the status of the book
     to available. User must enter the title of the book.
@@ -261,7 +261,7 @@ public class MainFrame extends JFrame {
 
     }//end checkInBook
 
-    /*
+    /**
     Method Name: main
     Explanation: This method initializes the MainFrame.java file
     and creates an instance of the library and mainFrame.

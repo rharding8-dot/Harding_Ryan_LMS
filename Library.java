@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
-/*
+/**
 Ryan Harding, CEN-3024C-14320, 09/08/2024
 Software Development 1
 Function: The Library Class handles the arraylist of the program,
@@ -15,7 +15,7 @@ public class Library {
         books = new ArrayList<>();
     }
 
-    /*
+    /**
     Method: checkOutBook
     The purpose of this method is to check to see if a book and its associated
     id is already checked out. If not it will check out the book.
@@ -40,7 +40,7 @@ public class Library {
         }
         System.out.println("No book with the title: " + title + " is found.");
     }
-    /*
+    /**
     Method: checkInBook
     The purpose of this method is to check in a book that has already been checked out.
     If the book is already checked in, then it will notify the user.
@@ -65,7 +65,7 @@ public class Library {
         System.out.println("No book with the title " + title + " found.");
     }
 
-    /*
+    /**
     Method: loadBooksFromFile
     The purpose of this method is to add books from a .txt file
     Arguments: Checks to see if file is in the correct format
@@ -90,7 +90,7 @@ public class Library {
 
     }//end method loadBooksFromFile
 
-    /*
+    /**
     Method: removeBook
     The purpose of this method is to remove books in LMS via given id number
     Argument: Removes if gets id number
@@ -100,7 +100,7 @@ public class Library {
         System.out.println("Book with ID " + id + " removed.");
     }//end removeBook method
 
-    /*
+    /**
     Method: listBooks
     The purpose of this method is to list all the books in the LMS arraylist
     Argument: If empty then No books in LMS, else print books in list

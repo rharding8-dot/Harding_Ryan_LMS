@@ -1,4 +1,4 @@
-/*
+/**
 Ryan Harding, CEN-3024C-14320, 09/08/2024
 Software Development 1
 Function: Main is to initialize the Library and Menu, and run the LMS
@@ -10,7 +10,7 @@ The choices will include Listing books, Removing books, and Exiting the program.
 Users will have to rerun the program to then add more .txt files of books if desired.
  */
 public class Main {
-    /*
+    /**
     main method- initializes the Library and Menu
     consoleMenu will ask to load new books and also display menu
      */
